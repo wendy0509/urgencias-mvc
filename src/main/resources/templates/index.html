@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Inicio')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: menu}"></nav>
+<div class="container">
+    <h1>Sistema de Priorización de Urgencias</h1>
+    <p class="lead">Gestión de pacientes y médicos del servicio de urgencias.</p>
+    <a class="btn btn-primary" th:href="@{/pacientes}">Pacientes</a>
+    <a class="btn btn-secondary" th:href="@{/medicos}">Médicos</a>
+</div>
+</body>
+</html>

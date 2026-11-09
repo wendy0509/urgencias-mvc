@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Formulario paciente')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: menu}"></nav>
+<div class="container" style="max-width:700px">
+    <h2 th:text="${paciente.id == null} ? 'Registrar paciente' : 'Editar paciente'"></h2>
+
+    <form th:action="@{/pacientes/guardar}" th:object="${paciente}" method="post">
+        <input type="hidden" th:field="*{id}">
+
+        <div class="mb-3">
+            <label class="form-label">Nombre</label>
+            <input class="form-control" th:field="*{nombre}">
+            <div class="text-danger" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Documento</label>
+            <input class="form-control" th:field="*{documento}">
+            <div class="text-danger" th:if="${#fields.hasErrors('documento')}" th:errors="*{documento}"></div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Edad</label>
+            <input type="number" class="form-control" th:field="*{edad}">
+            <div class="text-danger" th:if="${#fields.hasErrors('edad')}" th:errors="*{edad}"></div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Motivo de consulta</label>
+            <input class="form-control" th:field="*{motivoConsulta}">
+            <div class="text-danger" th:if="${#fields.hasErrors('motivoConsulta')}" th:errors="*{motivoConsulta}"></div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Nivel de gravedad (1 a 5)</label>
+            <input type="number" class="form-control" th:field="*{nivelGravedad}">
+            <div class="text-danger" th:if="${#fields.hasErrors('nivelGravedad')}" th:errors="*{nivelGravedad}"></div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Alergias / antecedentes críticos</label>
+            <input class="form-control" th:field="*{alergias}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Estado</label>
+            <select class="form-select" th:field="*{estado}">
+                <option th:each="e : ${estados}" th:value="${e}" th:text="${e}"></option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Médico asignado</label>
+            <select class="form-select" th:field="*{medico.id}">
+                <option value="">-- Seleccione --</option>
+                <option th:each="m : ${medicos}" th:value="${m.id}"
+                        th:text="${m.nombre + ' - ' + m.especialidad}"></option>
+            </select>
+            <div class="text-danger" th:if="${#fields.hasErrors('medico')}" th:errors="*{medico}"></div>
+        </div>
+
+        <button class="btn btn-primary">Guardar</button>
+        <a class="btn btn-secondary" th:href="@{/pacientes}">Cancelar</a>
+    </form>
+</div>
+</body>
+</html>

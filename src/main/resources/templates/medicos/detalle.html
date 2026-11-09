@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Detalle médico')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: menu}"></nav>
+<div class="container">
+    <h2>Detalle del médico</h2>
+    <ul class="list-group mb-4" style="max-width:600px">
+        <li class="list-group-item"><b>Nombre:</b> <span th:text="${medico.nombre}"></span></li>
+        <li class="list-group-item"><b>Especialidad:</b> <span th:text="${medico.especialidad}"></span></li>
+        <li class="list-group-item"><b>Correo:</b> <span th:text="${medico.correo}"></span></li>
+        <li class="list-group-item"><b>Disponible:</b> <span th:text="${medico.disponible} ? 'Sí' : 'No'"></span></li>
+    </ul>
+
+    <h4>Pacientes asignados (<span th:text="${#lists.size(medico.pacientes)}"></span>)</h4>
+    <table class="table">
+        <thead><tr><th>Nombre</th><th>Documento</th><th>Prioridad</th><th>Estado</th></tr></thead>
+        <tbody>
+        <tr th:each="p : ${medico.pacientes}">
+            <td th:text="${p.nombre}"></td>
+            <td th:text="${p.documento}"></td>
+            <td th:text="${p.prioridad}"></td>
+            <td th:text="${p.estado}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <a class="btn btn-secondary" th:href="@{/medicos}">Volver</a>
+</div>
+</body>
+</html>

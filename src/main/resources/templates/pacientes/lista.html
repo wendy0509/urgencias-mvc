@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Pacientes')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: menu}"></nav>
+<div class="container">
+    <div class="d-flex justify-content-between mb-3">
+        <h2>Pacientes en urgencias</h2>
+        <a class="btn btn-success" th:href="@{/pacientes/nuevo}">+ Registrar paciente</a>
+    </div>
+    <div class="alert alert-success" th:if="${mensaje}" th:text="${mensaje}"></div>
+    <div class="alert alert-danger" th:if="${error}" th:text="${error}"></div>
+
+    <table class="table table-striped align-middle">
+        <thead><tr>
+            <th>ID</th><th>Nombre</th><th>Documento</th><th>Edad</th><th>Gravedad</th>
+            <th>Prioridad</th><th>Estado</th><th>Médico</th><th>Acciones</th>
+        </tr></thead>
+        <tbody>
+        <tr th:each="p : ${pacientes}">
+            <td th:text="${p.id}"></td>
+            <td th:text="${p.nombre}"></td>
+            <td th:text="${p.documento}"></td>
+            <td th:text="${p.edad}"></td>
+            <td th:text="${p.nivelGravedad}"></td>
+            <td th:text="${p.prioridad}"></td>
+            <td th:text="${p.estado}"></td>
+            <td th:text="${p.medico.nombre}"></td>
+            <td>
+                <a class="btn btn-sm btn-info" th:href="@{/pacientes/{id}(id=${p.id})}">Ver</a>
+                <a class="btn btn-sm btn-warning" th:href="@{/pacientes/{id}/editar(id=${p.id})}">Editar</a>
+                <form class="d-inline" th:action="@{/pacientes/{id}/eliminar(id=${p.id})}" method="post"
+                      onsubmit="return confirm('¿Eliminar este paciente?');">
+                    <button class="btn btn-sm btn-danger">Eliminar</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

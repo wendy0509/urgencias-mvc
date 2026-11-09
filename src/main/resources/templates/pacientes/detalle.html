@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Detalle paciente')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: menu}"></nav>
+<div class="container" style="max-width:700px">
+    <h2>Detalle del paciente</h2>
+    <ul class="list-group mb-3">
+        <li class="list-group-item"><b>ID:</b> <span th:text="${paciente.id}"></span></li>
+        <li class="list-group-item"><b>Nombre:</b> <span th:text="${paciente.nombre}"></span></li>
+        <li class="list-group-item"><b>Documento:</b> <span th:text="${paciente.documento}"></span></li>
+        <li class="list-group-item"><b>Edad:</b> <span th:text="${paciente.edad}"></span></li>
+        <li class="list-group-item"><b>Motivo:</b> <span th:text="${paciente.motivoConsulta}"></span></li>
+        <li class="list-group-item"><b>Gravedad:</b> <span th:text="${paciente.nivelGravedad}"></span></li>
+        <li class="list-group-item"><b>Prioridad:</b> <span th:text="${paciente.prioridad}"></span></li>
+        <li class="list-group-item"><b>Alergias:</b> <span th:text="${paciente.alergias}"></span></li>
+        <li class="list-group-item"><b>Estado:</b> <span th:text="${paciente.estado}"></span></li>
+        <li class="list-group-item"><b>Llegada:</b> <span th:text="${#temporals.format(paciente.fechaLlegada,'dd/MM/yyyy HH:mm')}"></span></li>
+        <li class="list-group-item"><b>Médico:</b> <span th:text="${paciente.medico.nombre}"></span></li>
+    </ul>
+    <a class="btn btn-secondary" th:href="@{/pacientes}">Volver</a>
+</div>
+</body>
+</html>

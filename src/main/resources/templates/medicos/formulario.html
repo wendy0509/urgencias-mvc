@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Formulario médico')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: menu}"></nav>
+<div class="container" style="max-width:700px">
+    <h2 th:text="${medico.id == null} ? 'Registrar médico' : 'Editar médico'"></h2>
+    <form th:action="@{/medicos/guardar}" th:object="${medico}" method="post">
+        <input type="hidden" th:field="*{id}">
+        <div class="mb-3">
+            <label class="form-label">Nombre</label>
+            <input class="form-control" th:field="*{nombre}">
+            <div class="text-danger" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Especialidad</label>
+            <input class="form-control" th:field="*{especialidad}">
+            <div class="text-danger" th:if="${#fields.hasErrors('especialidad')}" th:errors="*{especialidad}"></div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Correo</label>
+            <input class="form-control" th:field="*{correo}">
+            <div class="text-danger" th:if="${#fields.hasErrors('correo')}" th:errors="*{correo}"></div>
+        </div>
+        <div class="form-check mb-3">
+            <input type="checkbox" class="form-check-input" th:field="*{disponible}">
+            <label class="form-check-label">Disponible</label>
+        </div>
+        <button class="btn btn-primary">Guardar</button>
+        <a class="btn btn-secondary" th:href="@{/medicos}">Cancelar</a>
+    </form>
+</div>
+</body>
+</html>

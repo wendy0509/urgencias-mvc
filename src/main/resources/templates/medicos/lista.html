@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Médicos')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: menu}"></nav>
+<div class="container">
+    <div class="d-flex justify-content-between mb-3">
+        <h2>Médicos</h2>
+        <a class="btn btn-success" th:href="@{/medicos/nuevo}">+ Registrar médico</a>
+    </div>
+    <div class="alert alert-success" th:if="${mensaje}" th:text="${mensaje}"></div>
+    <div class="alert alert-danger" th:if="${error}" th:text="${error}"></div>
+
+    <table class="table table-striped align-middle">
+        <thead><tr><th>ID</th><th>Nombre</th><th>Especialidad</th><th>Correo</th><th>Disponible</th><th>Acciones</th></tr></thead>
+        <tbody>
+        <tr th:each="m : ${medicos}">
+            <td th:text="${m.id}"></td>
+            <td th:text="${m.nombre}"></td>
+            <td th:text="${m.especialidad}"></td>
+            <td th:text="${m.correo}"></td>
+            <td th:text="${m.disponible} ? 'Sí' : 'No'"></td>
+            <td>
+                <a class="btn btn-sm btn-info" th:href="@{/medicos/{id}(id=${m.id})}">Ver</a>
+                <a class="btn btn-sm btn-warning" th:href="@{/medicos/{id}/editar(id=${m.id})}">Editar</a>
+                <form class="d-inline" th:action="@{/medicos/{id}/eliminar(id=${m.id})}" method="post"
+                      onsubmit="return confirm('¿Eliminar este médico?');">
+                    <button class="btn btn-sm btn-danger">Eliminar</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
