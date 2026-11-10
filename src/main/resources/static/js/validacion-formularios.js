@@ -105,7 +105,11 @@
 
         if (valor !== campo.value) {
             campo.value = valor;
-            campo.setSelectionRange(valor.length, valor.length);
+            try {
+                campo.setSelectionRange(valor.length, valor.length);
+            } catch (e) {
+                // type="email" no permite mover el cursor; el valor ya quedó corregido
+            }
         }
         return aviso;
     }
