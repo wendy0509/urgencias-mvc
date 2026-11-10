@@ -7,15 +7,22 @@ Guía para que cualquier persona instale, configure y ejecute la aplicación sin
 | Programa | Versión | Descarga |
 |---|---|---|
 | JDK | 21 | <https://adoptium.net/> |
-| XAMPP (MySQL/MariaDB) | 8.x | <https://www.apachefriends.org/> |
+| XAMPP (MySQL/MariaDB) | 8.2.12 | <https://www.apachefriends.org/download.html> |
 | IDE (opcional) | IntelliJ IDEA / VS Code / Spring Tool Suite | — |
 | Git | 2.40+ | <https://git-scm.com/> |
 | Navegador web | Chrome, Edge o Firefox actualizado | — |
 
 Spring Boot **4.1.2** y Maven se descargan automáticamente con el wrapper (`mvnw`); no requieren instalación.
 
-Comprobar Java:
+En Windows se pueden instalar desde PowerShell:
+```powershell
+winget install --id Git.Git -e
+winget install --id EclipseAdoptium.Temurin.21.JDK -e
+```
+
+Cerrar la terminal, abrir una nueva y comprobar:
 ```bash
+git --version
 java -version    # debe mostrar 21
 ```
 
@@ -59,7 +66,7 @@ CREATE TABLE medicos (
   id            BIGINT AUTO_INCREMENT PRIMARY KEY,
   nombre        VARCHAR(100) NOT NULL,
   especialidad  VARCHAR(80)  NOT NULL,
-  correo        VARCHAR(255) NOT NULL,
+  correo        VARCHAR(100) NOT NULL,
   disponible    BIT(1)       NOT NULL DEFAULT 1
 );
 
@@ -105,7 +112,26 @@ git checkout develop
 mvnw.cmd spring-boot:run     # Windows
 ```
 
+En **PowerShell** el wrapper se escribe con `.\` delante: `.\mvnw.cmd spring-boot:run`.
+
 Desde el IDE: abrir la carpeta como proyecto Maven y ejecutar `UrgenciasApplication.java`.
+
+La primera ejecución tarda unos minutos porque Maven descarga Spring Boot y las librerías. Está lista cuando la consola muestra `Started UrgenciasApplication`.
+
+### 3.1 Si MySQL usa el puerto 3306
+
+XAMPP instala MySQL en el puerto **3306**; el proyecto está configurado con **3307**. Hay dos opciones:
+
+**Opción A — sin cambiar archivos (recomendada para probar):** arrancar indicando el puerto, en una sola línea:
+
+```powershell
+.\mvnw.cmd spring-boot:run "-Dspring-boot.run.arguments=--spring.datasource.url=jdbc:mysql://localhost:3306/urgencias_db?useSSL=false&serverTimezone=America/Bogota&allowPublicKeyRetrieval=true"
+```
+
+**Opción B — dejar XAMPP en 3307 (igual que el equipo):**
+1. XAMPP → MySQL → **Config → my.ini** → cambiar `port=3306` por `port=3307` en `[client]` y `[mysqld]`.
+2. En `C:\xampp\phpMyAdmin\config.inc.php` agregar: `$cfg['Servers'][$i]['port'] = '3307';` (si no, phpMyAdmin deja de conectar).
+3. Reiniciar MySQL y arrancar con `.\mvnw.cmd spring-boot:run`.
 
 La aplicación queda disponible en <http://localhost:8080/>.
 
@@ -140,13 +166,21 @@ Puerto: **8080** (configurable con `server.port`).
 - **Eliminar:** *Eliminar*. No se permite si el médico tiene pacientes asignados (se muestra un mensaje).
 
 ### 5.2 Pacientes
-- **Registrar:** Pacientes → *Nuevo* → nombre, documento (5–20 caracteres, único), edad (0–120), motivo de consulta, nivel de gravedad (1–5), alergias, estado y médico → *Guardar*. La hora de llegada y la **prioridad** (BAJA, MEDIA, ALTA, CRITICA) se asignan automáticamente.
+- **Registrar:** Pacientes → *Nuevo* → nombre completo (máx. 100, solo letras), documento (5–20 dígitos, único), edad (0–120), motivo de consulta, nivel de gravedad (1–5), alergias, estado y médico → *Guardar*. La hora de llegada y la **prioridad** (BAJA, MEDIA, ALTA, CRITICA) se asignan automáticamente.
 - **Consultar:** la lista se ordena por gravedad (mayor primero) y, a igual gravedad, por hora de llegada.
 - **Actualizar:** *Editar*; la prioridad se recalcula y se conserva la hora de llegada original.
 - **Eliminar:** *Eliminar* desde la lista.
 
 ### 5.3 Validaciones
-Los formularios no se guardan si hay campos obligatorios vacíos, documento duplicado, edad o gravedad fuera de rango, o correo con formato inválido. Los errores aparecen bajo cada campo.
+Los formularios validan **mientras se escribe**: el error aparece en rojo bajo el campo y desaparece al corregirlo. Además:
+
+- Los caracteres no permitidos **no entran**: letras en documento, edad o gravedad; números o símbolos en nombres y especialidad.
+- Los textos no pueden pasar su máximo (por ejemplo, 100 caracteres en el nombre); un contador muestra cuántos se llevan.
+- La edad admite máximo 3 dígitos (hasta 120) y la gravedad solo un número del 1 al 5.
+- No se puede guardar mientras haya errores; el cursor va al primer campo con error.
+- El servidor vuelve a validar todo (incluido el documento duplicado) aunque se desactive JavaScript.
+
+Reglas completas, límites y mensajes de cada campo: [09-reglas-de-campos.md](09-reglas-de-campos.md).
 
 *(Agregar capturas de pantalla en `docs/img/` y enlazarlas aquí antes de la entrega.)*
 
@@ -154,9 +188,12 @@ Los formularios no se guardan si hay campos obligatorios vacíos, documento dupl
 
 | Síntoma | Causa probable | Solución |
 |---|---|---|
-| `Communications link failure` | MySQL apagado o puerto distinto | Iniciar MySQL en XAMPP; revisar puerto 3307 |
+| `git` / `java` no se reconoce como comando | No está instalado o la terminal se abrió antes de instalarlo | Instalar (ver sección 1) y abrir una terminal nueva |
+| `mvnw.cmd` no se reconoce en PowerShell | Falta `.\` | Usar `.\mvnw.cmd spring-boot:run` |
+| `Communications link failure` | MySQL apagado o puerto distinto | Iniciar MySQL en XAMPP; si está en 3306, ver sección 3.1 |
 | `Unknown database 'urgencias_db'` | BD no creada | Ejecutar el `CREATE DATABASE` del punto 2.2 |
 | `Access denied for user 'root'` | MySQL tiene contraseña | Agregar `spring.datasource.password` localmente |
 | `Port 8080 was already in use` | Otro proceso usa el puerto | Cerrarlo o cambiar `server.port` |
 | Error de Lombok en el IDE (getters no encontrados) | *Annotation processing* desactivado | Activarlo en el IDE |
-| `TemplateInputException` en `/pacientes/nuevo` | Plantilla con nombre distinto al esperado | Ver deuda técnica en [07-roadmap.md](07-roadmap.md) |
+| `TemplateInputException: Error resolving template [pacientes/formulario]` | La plantilla se llamaba `fomulario.html` | Corregido en `feature/fix-plantilla-formulario-paciente`; actualizar la rama (`git pull`) |
+| Los errores no aparecen mientras se escribe | El navegador guardó una versión vieja del JavaScript | Recargar con **Ctrl + F5** |

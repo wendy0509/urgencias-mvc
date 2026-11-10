@@ -7,7 +7,7 @@
 | **Java 21 (LTS)** | Backend: modelo, servicios, controladores |
 | **HTML5 + Thymeleaf** | Vistas del lado del servidor |
 | **CSS3 (Bootstrap 5)** | Estilos de la interfaz |
-| **JavaScript** | Interacciones puntuales en vistas; en la etapa objetivo, cliente WebSocket |
+| **JavaScript (ES5, sin librerías)** | Validación de formularios en tiempo real (`static/js/validacion-formularios.js`); en la etapa objetivo, cliente WebSocket |
 | **SQL (MySQL)** | Base de datos relacional |
 | **Markdown** | Documentación en `docs/` |
 
@@ -19,7 +19,7 @@
 | spring-boot-starter-webmvc | (Boot) | Controladores MVC |
 | spring-boot-starter-thymeleaf | (Boot) | Motor de plantillas |
 | spring-boot-starter-data-jpa | (Boot) | Persistencia con Hibernate |
-| spring-boot-starter-validation | (Boot) | `@NotBlank`, `@Min`, `@Email`, ... |
+| spring-boot-starter-validation | (Boot) | `@NotBlank`, `@Size`, `@Pattern`, `@Min`, `@Max`, `@Email` — ver [09-reglas-de-campos.md](09-reglas-de-campos.md) |
 | mysql-connector-j | (Boot) | Driver MySQL |
 | Lombok | (Boot) | `@Getter`, `@Setter`, `@NoArgsConstructor` |
 | Spring DevTools | (Boot) | Recarga en caliente en desarrollo |
@@ -33,9 +33,9 @@
 |---|---|---|
 | JDK | 21 | Temurin u Oracle |
 | Maven | Wrapper incluido (`mvnw`) | No es necesario instalar Maven |
-| XAMPP (MySQL/MariaDB) | 8.x | Puerto configurado: **3307** |
+| XAMPP (MySQL/MariaDB) | 8.2.12 recomendado | Puerto configurado en el proyecto: **3307** (XAMPP trae 3306 por defecto; ver manual 3.1) |
 | IDE | IntelliJ IDEA, VS Code (Extension Pack for Java + Spring Boot) o STS | Activar *annotation processing* para Lombok |
-| Git | 2.40+ | Ver flujo en [04-flujo-de-trabajo-git.md](04-flujo-de-trabajo-git.md) |
+| Git | 2.40+ | Ver flujo en [04-flujo-de-trabajo-git.md](04-flujo-de-trabajo-git.md). Windows: `winget install --id Git.Git -e` |
 | Navegador | Chrome / Edge / Firefox actualizados | |
 
 ## 4. Tecnologías previstas para la arquitectura objetivo

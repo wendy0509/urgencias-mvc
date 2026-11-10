@@ -76,7 +76,43 @@ Cuando una feature es grande y la trabajan varios integrantes:
 
 > Git no permite tener a la vez una rama `feature/x` y otra `feature/x/y` en algunos clientes antiguos; si ocurre, usar `feature/x--y`.
 
-## 4. Release (entrega / despliegue)
+### Agrupar arreglos antes del PR
+
+Los arreglos pequeños que se van encontrando al probar **no** se suben uno por uno:
+
+1. Se hacen en la misma rama `feature/*`, un commit por arreglo.
+2. Se prueban en local.
+3. Cuando hay un grupo de arreglos listo, se **consulta al equipo** si se lanza el PR (o si se actualiza uno ya abierto).
+4. Con el visto bueno, `git push` y PR hacia `develop`.
+
+## 4. Release (QA y despliegue)
+
+El ciclo de entrega tiene tres etapas:
+
+```
+develop ──▶ release/X.Y.Z ──(QA aprueba)──▶ main  (vX.Y.Z = despliegue)
+                 │
+                 └── correcciones de QA, solo en esta rama
+```
+
+| Etapa | Rama | Quién | Qué se hace |
+|---|---|---|---|
+| Integración | `develop` | Equipo | Se unen las features aprobadas |
+| **QA** | `release/X.Y.Z` | Integrante distinto al que desarrolló | Se prueba la aplicación completa con el [manual](06-manual-del-sistema.md) y las [reglas de campos](09-reglas-de-campos.md). Los errores se corrigen **en la rama release** |
+| Despliegue / entrega | `main` | Dueña del repositorio | Merge de la release, etiqueta `vX.Y.Z` |
+
+### Lista de verificación de QA
+
+- [ ] La aplicación arranca sin errores y crea las tablas.
+- [ ] CRUD completo de médicos: registrar, listar, ver, editar, eliminar (y bloqueo al eliminar con pacientes).
+- [ ] CRUD completo de pacientes: registrar, listar, ver, editar, eliminar.
+- [ ] Cada campo cumple su regla de [09-reglas-de-campos.md](09-reglas-de-campos.md) (bloqueos, límites, mensajes).
+- [ ] Validación del servidor: con JavaScript desactivado en el navegador, los datos inválidos se rechazan con mensaje.
+- [ ] Documento duplicado rechazado.
+- [ ] Lista de pacientes ordenada por gravedad y hora de llegada.
+- [ ] Las pantallas coinciden con los [mockups](08-mockups.md).
+
+### Pasos
 
 ```bash
 git checkout develop && git pull
@@ -87,9 +123,10 @@ git checkout -b release/0.1.0
 git push -u origin release/0.1.0
 ```
 
-1. PR `release/0.1.0` → `main`. Al aprobarse, crear la etiqueta: `git tag -a v0.1.0 -m "Entrega MVC"` y `git push origin v0.1.0`.
-2. PR `release/0.1.0` → `develop` (o `main` → `develop`) para no perder los ajustes.
-3. En `develop`, subir la versión a la siguiente `-SNAPSHOT` (p. ej. `0.2.0-SNAPSHOT`).
+1. QA prueba la rama `release/0.1.0` con la lista de verificación. Las correcciones se hacen en esa misma rama.
+2. Cuando QA aprueba: PR `release/0.1.0` → `main`. Al aprobarse, crear la etiqueta: `git tag -a v0.1.0 -m "Entrega MVC"` y `git push origin v0.1.0`.
+3. PR `release/0.1.0` → `develop` (o `main` → `develop`) para no perder los ajustes de QA.
+4. En `develop`, subir la versión a la siguiente `-SNAPSHOT` (p. ej. `0.2.0-SNAPSHOT`).
 
 ## 5. Hotfix
 
@@ -118,7 +155,8 @@ Checklist del PR: ver [.github/pull_request_template.md](../.github/pull_request
 ### Autorización de cambios
 
 - Todo PR y toda actualización de un PR existente se presenta al equipo y **se aprueba explícitamente antes de hacer merge**.
-- En la descripción del PR se indica únicamente el usuario de GitHub de quien lo crea.
+- En la descripción del PR se indica únicamente el usuario de GitHub de quien lo crea (`Autor(a): <usuario>`). Commits y PR no llevan otras firmas ni textos automáticos; si una herramienta los agrega, se borran antes de pedir revisión.
+- Antes de abrir o actualizar un PR se consulta al equipo (ver *Agrupar arreglos antes del PR*).
 
 ## 7. Versionado
 

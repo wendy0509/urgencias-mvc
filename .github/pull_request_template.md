@@ -22,7 +22,12 @@ Refs #
 - [ ] `./mvnw clean verify` compila sin errores
 - [ ] Probé manualmente las pantallas afectadas
 - [ ] Actualicé la documentación (`docs/`, README, CHANGELOG) si aplica
+- [ ] Si cambié reglas de un campo: entidad + plantilla + `docs/09-reglas-de-campos.md`
+- [ ] El equipo aprobó lanzar este PR
 - [ ] No incluye contraseñas, tokens ni datos reales
 - [ ] Commits siguen Conventional Commits
 
 ## Capturas (si cambia la interfaz)
+
+---
+Autor(a): <!-- tu usuario de GitHub -->

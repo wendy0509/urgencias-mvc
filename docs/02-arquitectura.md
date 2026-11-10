@@ -40,6 +40,9 @@ urgencias-mvc/
     │   │       └── MedicoController.java
     │   └── resources/
     │       ├── application.properties        # Conexión a BD y configuración
+    │       ├── messages.properties           # Mensajes en español de errores de conversión
+    │       ├── static/js/
+    │       │   └── validacion-formularios.js # VISTA: validación en tiempo real (navegador)
     │       └── templates/                    # VISTA: plantillas Thymeleaf
     │           ├── index.html
     │           ├── fragments/layout.html
@@ -57,6 +60,7 @@ urgencias-mvc/
 | **Modelo** | `repository` | Interfaces Spring Data JPA: persistencia y consultas (`findAllByOrderByNivelGravedadDescFechaLlegadaAsc`) |
 | **Modelo** | `service` | Reglas de negocio: cálculo de prioridad, fecha de llegada, validación de eliminación |
 | **Vista** | `resources/templates` | Formularios y tablas HTML con Thymeleaf; layout compartido en `fragments/` |
+| **Vista** | `resources/static/js` | Validación de formularios en el navegador (no contiene reglas de negocio) |
 | **Controlador** | `controller` | Recibe peticiones, valida (`@Valid`), llama al servicio y elige la vista |
 
 ### 1.3 Modelo de datos
@@ -66,12 +70,13 @@ urgencias-mvc/
 │ medicos              │───────────│ pacientes                  │
 ├──────────────────────┤            ├───────────────────────────┤
 │ id (PK)              │            │ id (PK)                    │
-│ nombre               │            │ nombre                     │
-│ especialidad         │            │ documento (UNIQUE)         │
-│ correo               │            │ edad (0–120)               │
-│ disponible           │            │ motivo_consulta            │
-└──────────────────────┘            │ nivel_gravedad (1–5)       │
-                                    │ alergias                   │
+│ nombre (100)         │            │ nombre (100)               │
+│ especialidad (80)    │            │ documento (5–20 dígitos,   │
+│ correo (100)         │            │   UNIQUE)                  │
+│ disponible           │            │ edad (0–120)               │
+└──────────────────────┘            │ motivo_consulta (255)      │
+                                    │ nivel_gravedad (1–5)       │
+                                    │ alergias (255)             │
                                     │ prioridad (calculada)      │
                                     │ fecha_llegada              │
                                     │ estado (EN_ESPERA,         │
@@ -91,7 +96,8 @@ Navegador ──HTTP──▶ PacienteController ──▶ PacienteService ─�
 ```
 
 Ejemplo — registrar paciente (`POST /pacientes/guardar`):
-1. El controlador valida el formulario con `@Valid`; si hay errores, devuelve el formulario con mensajes.
+0. En el navegador, `validacion-formularios.js` impide escribir datos inválidos y no deja enviar el formulario mientras haya errores.
+1. El controlador valida el formulario con `@Valid` (respaldo); si hay errores, devuelve el formulario con mensajes.
 2. `PacienteService.guardar()` asigna la fecha de llegada y calcula la prioridad.
 3. `PacienteRepository.save()` persiste en la tabla `pacientes`.
 4. Redirección a `/pacientes`, donde la lista se ordena por gravedad y hora de llegada.
@@ -102,6 +108,7 @@ Ejemplo — registrar paciente (`POST /pacientes/guardar`):
 - Los controladores **no** acceden a repositorios directamente.
 - Las plantillas **no** contienen lógica de negocio (solo presentación).
 - La lógica de prioridad vive **solo** en la capa de servicio (y, en la etapa objetivo, en el dominio).
+- Las reglas de los campos se definen en la entidad **y** en la plantilla con los mismos mensajes; el JavaScript del navegador mejora la experiencia pero nunca reemplaza la validación del servidor. Ver [09-reglas-de-campos.md](09-reglas-de-campos.md).
 
 ---
 

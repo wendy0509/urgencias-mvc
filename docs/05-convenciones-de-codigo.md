@@ -39,6 +39,15 @@
 - Layout común en `templates/fragments/`.
 - Sin lógica de negocio en las plantillas.
 
+### Validación de campos
+
+- Cada campo de texto tiene **máximo de caracteres**; cada campo numérico acepta **solo dígitos** y tiene rango.
+- La regla se escribe en la entidad (`@NotBlank`, `@Size`, `@Pattern`, `@Min`, `@Max`, `@Email`) **y** en la plantilla con atributos `data-*`, con el **mismo mensaje**.
+- Campos numéricos: `type="text" inputmode="numeric"`, no `type="number"`.
+- Formularios con el atributo `data-validar` y el script `@{/js/validacion-formularios.js}` al final del `<body>`.
+- Mensajes cortos, en español, que digan qué hacer: "El documento solo debe contener números".
+- Toda regla nueva o modificada se registra en [09-reglas-de-campos.md](09-reglas-de-campos.md).
+
 ## 5. Base de datos
 
 - Tablas en plural y `snake_case`: `pacientes`, `medicos`.
