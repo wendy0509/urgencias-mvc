@@ -112,6 +112,8 @@ develop ──▶ release/X.Y.Z ──(QA aprueba)──▶ main  (vX.Y.Z = desp
 - [ ] Lista de pacientes ordenada por gravedad y hora de llegada.
 - [ ] Las pantallas coinciden con los [mockups](08-mockups.md).
 
+Cada ronda de QA se documenta en `docs/qa/` (casos, resultados, defectos y conclusión). Ejemplo: [QA-PR4-validaciones.md](qa/QA-PR4-validaciones.md).
+
 ### Pasos
 
 ```bash

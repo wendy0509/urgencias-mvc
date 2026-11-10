@@ -88,3 +88,4 @@ Los mensajes de conversión de tipo (cuando llega texto en un campo numérico al
 | 2026-11-10 | Documento: solo números | `feature/validacion-tiempo-real` |
 | 2026-11-10 | Edad: máximo 3 dígitos; gravedad: solo 1 a 5 | `feature/validacion-tiempo-real` |
 | 2026-11-10 | Nombres: máximo 100 caracteres, solo letras, contador; límite en todos los textos | `feature/validacion-tiempo-real` |
+| 2026-11-10 | QA de todas las reglas: 29/29 casos ([informe](qa/QA-PR4-validaciones.md)) | `feature/validacion-tiempo-real` |
