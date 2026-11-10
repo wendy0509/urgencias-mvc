@@ -118,7 +118,7 @@ Checklist del PR: ver [.github/pull_request_template.md](../.github/pull_request
 ### Autorización de cambios
 
 - Todo PR y toda actualización de un PR existente se presenta al equipo y **se aprueba explícitamente antes de hacer merge**.
-- Los cambios generados con asistencia de IA siguen la misma regla: se suben a una rama `feature/*` y sólo se integran con aprobación del equipo.
+- En la descripción del PR se indica únicamente el usuario de GitHub de quien lo crea.
 
 ## 7. Versionado
 
