@@ -20,6 +20,7 @@ public class Paciente {
 
     @NotBlank(message = "El documento es obligatorio")
     @Size(min = 5, max = 20, message = "El documento debe tener entre 5 y 20 caracteres")
+    @Pattern(regexp = "\\d*", message = "El documento solo debe contener números")
     @Column(unique = true)
     private String documento;
 
