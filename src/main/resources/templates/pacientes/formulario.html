@@ -6,37 +6,51 @@
 <div class="container" style="max-width:700px">
     <h2 th:text="${paciente.id == null} ? 'Registrar paciente' : 'Editar paciente'"></h2>
 
-    <form th:action="@{/pacientes/guardar}" th:object="${paciente}" method="post">
+    <form th:action="@{/pacientes/guardar}" th:object="${paciente}" method="post" data-validar>
         <input type="hidden" th:field="*{id}">
 
         <div class="mb-3">
             <label class="form-label">Nombre</label>
-            <input class="form-control" th:field="*{nombre}">
+            <input class="form-control" th:field="*{nombre}"
+                   data-requerido="El nombre es obligatorio"
+                   data-max-largo="100" data-msg-largo="Máximo 100 caracteres">
             <div class="text-danger" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
         </div>
         <div class="mb-3">
             <label class="form-label">Documento</label>
-            <input class="form-control" th:field="*{documento}">
+            <input class="form-control" th:field="*{documento}"
+                   data-requerido="El documento es obligatorio"
+                   data-min-largo="5" data-max-largo="20"
+                   data-msg-largo="El documento debe tener entre 5 y 20 caracteres">
             <div class="text-danger" th:if="${#fields.hasErrors('documento')}" th:errors="*{documento}"></div>
         </div>
         <div class="mb-3">
             <label class="form-label">Edad</label>
-            <input type="number" class="form-control" th:field="*{edad}">
+            <input type="number" class="form-control" th:field="*{edad}"
+                   data-requerido="La edad es obligatoria" data-entero="La edad debe ser un número entero"
+                   data-min="0" data-msg-min="La edad no puede ser negativa"
+                   data-max="120" data-msg-max="La edad máxima es 120">
             <div class="text-danger" th:if="${#fields.hasErrors('edad')}" th:errors="*{edad}"></div>
         </div>
         <div class="mb-3">
             <label class="form-label">Motivo de consulta</label>
-            <input class="form-control" th:field="*{motivoConsulta}">
+            <input class="form-control" th:field="*{motivoConsulta}"
+                   data-requerido="El motivo de consulta es obligatorio"
+                   data-max-largo="255" data-msg-largo="Máximo 255 caracteres">
             <div class="text-danger" th:if="${#fields.hasErrors('motivoConsulta')}" th:errors="*{motivoConsulta}"></div>
         </div>
         <div class="mb-3">
             <label class="form-label">Nivel de gravedad (1 a 5)</label>
-            <input type="number" class="form-control" th:field="*{nivelGravedad}">
+            <input type="number" class="form-control" th:field="*{nivelGravedad}"
+                   data-requerido="La gravedad es obligatoria" data-entero="La gravedad debe ser un número entero"
+                   data-min="1" data-msg-min="Mínimo 1"
+                   data-max="5" data-msg-max="Máximo 5">
             <div class="text-danger" th:if="${#fields.hasErrors('nivelGravedad')}" th:errors="*{nivelGravedad}"></div>
         </div>
         <div class="mb-3">
             <label class="form-label">Alergias / antecedentes críticos</label>
-            <input class="form-control" th:field="*{alergias}">
+            <input class="form-control" th:field="*{alergias}"
+                   data-max-largo="255" data-msg-largo="Máximo 255 caracteres">
         </div>
         <div class="mb-3">
             <label class="form-label">Estado</label>
@@ -46,7 +60,7 @@
         </div>
         <div class="mb-3">
             <label class="form-label">Médico asignado</label>
-            <select class="form-select" th:field="*{medico.id}">
+            <select class="form-select" th:field="*{medico.id}" data-requerido="Debe seleccionar un médico">
                 <option value="">-- Seleccione --</option>
                 <option th:each="m : ${medicos}" th:value="${m.id}"
                         th:text="${m.nombre + ' - ' + m.especialidad}"></option>
@@ -58,5 +72,6 @@
         <a class="btn btn-secondary" th:href="@{/pacientes}">Cancelar</a>
     </form>
 </div>
+<script th:src="@{/js/validacion-formularios.js}"></script>
 </body>
 </html>
