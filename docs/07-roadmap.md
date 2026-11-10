@@ -4,7 +4,7 @@
 
 | Fase | Versión | Rama de entrega | Objetivo | Estado |
 |---|---|---|---|---|
-| 0 | — | `feature/documentacion-base` | Documentación, flujo Git, convenciones, guía de integrantes y reglas de campos | 🟡 En revisión (PR #1) |
+| 0 | — | `feature/documentacion-base` | Documentación, flujo Git, convenciones, guía de integrantes y reglas de campos | ✅ Integrado (PR #1) |
 | 1 | `v0.1.0` | `release/0.1.0` | Entrega MVC: CRUD Paciente/Médico con MySQL, validaciones en tiempo real, manual → **QA** → `main` | 🟡 En curso |
 | 2 | `v0.2.0` | `release/0.2.0` | Completar requisitos clínicos en MVC: signos vitales, cierre de atención, historial | ⚪ Pendiente |
 | 3 | `v0.3.0` | `release/0.3.0` | Motor de prioridad con reglas (Strategy) y pruebas unitarias | ⚪ Pendiente |
@@ -30,10 +30,10 @@
 
 | Rama | PR | Contenido | Estado |
 |---|---|---|---|
-| `feature/documentacion-base` | #1 | Documentación base, guía de nuevos integrantes, reglas de campos | En revisión |
+| `feature/documentacion-base` | #1 | Documentación base, guía de nuevos integrantes, reglas de campos | ✅ Integrado en `develop` |
 | `feature/mockups-figma` | #2 | Mockups de las 8 pantallas | En revisión |
-| `feature/fix-plantilla-formulario-paciente` | #3 | Corrige error 500 al registrar/editar paciente | En revisión |
-| `feature/validacion-tiempo-real` | #4 | Validación en tiempo real, bloqueos y límites de todos los campos | En revisión (incluye #3) |
+| `feature/fix-plantilla-formulario-paciente` | #3 | Corrige error 500 al registrar/editar paciente | ✅ Integrado en `develop` |
+| `feature/validacion-tiempo-real` | #4 | Validación en tiempo real, bloqueos y límites de todos los campos | QA aprobado (29/29) — pendiente merge. [Informe](qa/QA-PR4-validaciones.md) |
 
 Después de aprobar estos PR: crear `release/0.1.0` para QA.
 

@@ -84,6 +84,7 @@ Manual completo (requisitos, configuración de BD, URLs y guía de uso): [docs/0
 | [07 · Roadmap](docs/07-roadmap.md) | Fases, mapeo de requisitos a ramas, deuda técnica conocida |
 | [08 · Mockups](docs/08-mockups.md) | Diseño de cada pantalla en Figma y su vista correspondiente |
 | [09 · Reglas de los campos](docs/09-reglas-de-campos.md) | Qué acepta cada campo, límites, mensajes y cómo se valida |
+| [Informes de QA](docs/qa/) | Casos probados, resultados y defectos por PR o release |
 | [ADR](docs/adr/) | Registro de decisiones de arquitectura |
 | [CONTRIBUTING](CONTRIBUTING.md) | Cómo contribuir paso a paso |
 | [CHANGELOG](CHANGELOG.md) | Historial de versiones |

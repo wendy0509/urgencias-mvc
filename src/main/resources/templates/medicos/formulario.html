@@ -5,21 +5,30 @@
 <nav th:replace="~{fragments/layout :: menu}"></nav>
 <div class="container" style="max-width:700px">
     <h2 th:text="${medico.id == null} ? 'Registrar médico' : 'Editar médico'"></h2>
-    <form th:action="@{/medicos/guardar}" th:object="${medico}" method="post">
+    <form th:action="@{/medicos/guardar}" th:object="${medico}" method="post" data-validar>
         <input type="hidden" th:field="*{id}">
         <div class="mb-3">
-            <label class="form-label">Nombre</label>
-            <input class="form-control" th:field="*{nombre}">
+            <label class="form-label">Nombre completo (nombres y apellidos)</label>
+            <input class="form-control" th:field="*{nombre}"
+                   data-requerido="El nombre es obligatorio"
+                   data-solo-letras="El nombre solo debe contener letras"
+                   data-max-largo="100" data-msg-max-largo="El nombre admite máximo 100 caracteres" data-contador>
             <div class="text-danger" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
         </div>
         <div class="mb-3">
             <label class="form-label">Especialidad</label>
-            <input class="form-control" th:field="*{especialidad}">
+            <input class="form-control" th:field="*{especialidad}"
+                   data-requerido="La especialidad es obligatoria"
+                   data-solo-letras="La especialidad solo debe contener letras"
+                   data-max-largo="80" data-contador>
             <div class="text-danger" th:if="${#fields.hasErrors('especialidad')}" th:errors="*{especialidad}"></div>
         </div>
         <div class="mb-3">
             <label class="form-label">Correo</label>
-            <input class="form-control" th:field="*{correo}">
+            <input type="email" class="form-control" th:field="*{correo}"
+                   data-requerido="El correo es obligatorio"
+                   data-email="Formato de correo inválido"
+                   data-max-largo="100">
             <div class="text-danger" th:if="${#fields.hasErrors('correo')}" th:errors="*{correo}"></div>
         </div>
         <div class="form-check mb-3">
@@ -30,5 +39,6 @@
         <a class="btn btn-secondary" th:href="@{/medicos}">Cancelar</a>
     </form>
 </div>
+<script th:src="@{/js/validacion-formularios.js}"></script>
 </body>
 </html>
