@@ -14,6 +14,8 @@
  *   data-entero="mensaje"                    solo números enteros
  *   data-email="mensaje"                     formato de correo
  *   data-solo-numeros="mensaje"              solo dígitos: bloquea letras y símbolos al escribir o pegar
+ *   data-max-digitos="3"                     no deja escribir más dígitos (mensaje en data-msg-digitos)
+ *   data-bloquear-rango="mensaje"            no deja escribir valores fuera de data-min / data-max
  */
 (function () {
     'use strict';
@@ -53,6 +55,32 @@
         return '';
     }
 
+    // Impide que entren caracteres o valores no permitidos. Devuelve el aviso a mostrar, o ''.
+    function filtrarEntrada(campo, previo) {
+        var d = campo.dataset;
+        var valor = campo.value;
+        var aviso = '';
+
+        if (d.soloNumeros !== undefined && /\D/.test(valor)) {
+            valor = valor.replace(/\D/g, '');
+            aviso = d.soloNumeros;
+        }
+        if (d.maxDigitos !== undefined && valor.length > Number(d.maxDigitos)) {
+            valor = valor.slice(0, Number(d.maxDigitos));
+            aviso = d.msgDigitos;
+        }
+        if (d.bloquearRango !== undefined && valor !== '' &&
+                (Number(valor) < Number(d.min) || Number(valor) > Number(d.max))) {
+            valor = DIGITOS.test(previo) || previo === '' ? previo : '';
+            aviso = d.bloquearRango;
+        }
+        if (valor !== campo.value) {
+            campo.value = valor;
+            campo.setSelectionRange(valor.length, valor.length);
+        }
+        return aviso;
+    }
+
     // Reutiliza el div de error que pinta el servidor (th:errors) o crea uno nuevo.
     function contenedorError(campo) {
         var grupo = campo.closest('.mb-3') || campo.parentElement;
@@ -89,17 +117,13 @@
                 campo.setAttribute('inputmode', 'numeric');
             }
 
+            var previo = campo.value;
+
             campo.addEventListener(evento, function () {
                 tocado = true;
-                if (soloNumeros && /\D/.test(campo.value)) {
-                    // Quita letras, espacios y símbolos (al escribir o al pegar) y avisa
-                    var pos = campo.selectionStart - (campo.value.slice(0, campo.selectionStart).match(/\D/g) || []).length;
-                    campo.value = campo.value.replace(/\D/g, '');
-                    campo.setSelectionRange(pos, pos);
-                    pintar(campo, campo.dataset.soloNumeros);
-                    return;
-                }
-                pintar(campo, validarCampo(campo));
+                var aviso = filtrarEntrada(campo, previo);
+                previo = campo.value;
+                pintar(campo, aviso || validarCampo(campo));
             });
             campo.addEventListener('blur', function () {
                 if (tocado || campo.value.trim() !== '') {

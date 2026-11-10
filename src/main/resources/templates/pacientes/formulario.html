@@ -27,8 +27,10 @@
         </div>
         <div class="mb-3">
             <label class="form-label">Edad</label>
-            <input type="number" class="form-control" th:field="*{edad}"
-                   data-requerido="La edad es obligatoria" data-entero="La edad debe ser un número entero"
+            <input type="text" inputmode="numeric" class="form-control" th:field="*{edad}"
+                   data-requerido="La edad es obligatoria"
+                   data-solo-numeros="La edad solo debe contener números"
+                   data-max-digitos="3" data-msg-digitos="La edad admite máximo 3 dígitos"
                    data-min="0" data-msg-min="La edad no puede ser negativa"
                    data-max="120" data-msg-max="La edad máxima es 120">
             <div class="text-danger" th:if="${#fields.hasErrors('edad')}" th:errors="*{edad}"></div>
@@ -42,8 +44,11 @@
         </div>
         <div class="mb-3">
             <label class="form-label">Nivel de gravedad (1 a 5)</label>
-            <input type="number" class="form-control" th:field="*{nivelGravedad}"
-                   data-requerido="La gravedad es obligatoria" data-entero="La gravedad debe ser un número entero"
+            <input type="text" inputmode="numeric" class="form-control" th:field="*{nivelGravedad}"
+                   data-requerido="La gravedad es obligatoria"
+                   data-solo-numeros="Solo se permiten números del 1 al 5"
+                   data-max-digitos="1" data-msg-digitos="Solo se permiten números del 1 al 5"
+                   data-bloquear-rango="Solo se permiten números del 1 al 5"
                    data-min="1" data-msg-min="Mínimo 1"
                    data-max="5" data-msg-max="Máximo 5">
             <div class="text-danger" th:if="${#fields.hasErrors('nivelGravedad')}" th:errors="*{nivelGravedad}"></div>
