@@ -8,24 +8,27 @@
     <form th:action="@{/medicos/guardar}" th:object="${medico}" method="post" data-validar>
         <input type="hidden" th:field="*{id}">
         <div class="mb-3">
-            <label class="form-label">Nombre</label>
+            <label class="form-label">Nombre completo (nombres y apellidos)</label>
             <input class="form-control" th:field="*{nombre}"
                    data-requerido="El nombre es obligatorio"
-                   data-max-largo="100" data-msg-largo="Máximo 100 caracteres">
+                   data-solo-letras="El nombre solo debe contener letras"
+                   data-max-largo="100" data-msg-max-largo="El nombre admite máximo 100 caracteres" data-contador>
             <div class="text-danger" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
         </div>
         <div class="mb-3">
             <label class="form-label">Especialidad</label>
             <input class="form-control" th:field="*{especialidad}"
                    data-requerido="La especialidad es obligatoria"
-                   data-max-largo="80" data-msg-largo="Máximo 80 caracteres">
+                   data-solo-letras="La especialidad solo debe contener letras"
+                   data-max-largo="80" data-contador>
             <div class="text-danger" th:if="${#fields.hasErrors('especialidad')}" th:errors="*{especialidad}"></div>
         </div>
         <div class="mb-3">
             <label class="form-label">Correo</label>
             <input type="email" class="form-control" th:field="*{correo}"
                    data-requerido="El correo es obligatorio"
-                   data-email="Formato de correo inválido">
+                   data-email="Formato de correo inválido"
+                   data-max-largo="100">
             <div class="text-danger" th:if="${#fields.hasErrors('correo')}" th:errors="*{correo}"></div>
         </div>
         <div class="form-check mb-3">

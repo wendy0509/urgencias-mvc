@@ -15,11 +15,12 @@ public class Paciente {
     private Long id;
 
     @NotBlank(message = "El nombre es obligatorio")
-    @Size(max = 100)
+    @Size(max = 100, message = "El nombre admite máximo 100 caracteres")
+    @Pattern(regexp = "[\\p{L} .'-]*", message = "El nombre solo debe contener letras")
     private String nombre;
 
     @NotBlank(message = "El documento es obligatorio")
-    @Size(min = 5, max = 20, message = "El documento debe tener entre 5 y 20 caracteres")
+    @Size(min = 5, max = 20, message = "El documento debe tener entre 5 y 20 dígitos")
     @Pattern(regexp = "\\d*", message = "El documento solo debe contener números")
     @Column(unique = true)
     private String documento;
@@ -30,7 +31,7 @@ public class Paciente {
     private Integer edad;
 
     @NotBlank(message = "El motivo de consulta es obligatorio")
-    @Size(max = 255)
+    @Size(max = 255, message = "Máximo 255 caracteres")
     private String motivoConsulta;
 
     @NotNull(message = "La gravedad es obligatoria")
@@ -38,8 +39,8 @@ public class Paciente {
     @Max(value = 5, message = "Máximo 5")
     private Integer nivelGravedad;
 
-    @Size(max = 255)
-    private String alergias;            // RF20
+    @Size(max = 255, message = "Máximo 255 caracteres")
+    private String alergias;
 
     private String prioridad;           // calculada (RF02)
 

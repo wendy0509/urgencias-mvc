@@ -10,10 +10,11 @@
         <input type="hidden" th:field="*{id}">
 
         <div class="mb-3">
-            <label class="form-label">Nombre</label>
-            <input class="form-control" th:field="*{nombre}"
+            <label class="form-label">Nombre completo (nombres y apellidos)</label>
+            <input class="form-control" th:field="*{nombre}" autocomplete="name"
                    data-requerido="El nombre es obligatorio"
-                   data-max-largo="100" data-msg-largo="Máximo 100 caracteres">
+                   data-solo-letras="El nombre solo debe contener letras"
+                   data-max-largo="100" data-msg-max-largo="El nombre admite máximo 100 caracteres" data-contador>
             <div class="text-danger" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
         </div>
         <div class="mb-3">
@@ -21,8 +22,8 @@
             <input class="form-control" th:field="*{documento}"
                    data-requerido="El documento es obligatorio"
                    data-solo-numeros="El documento solo debe contener números"
-                   data-min-largo="5" data-max-largo="20"
-                   data-msg-largo="El documento debe tener entre 5 y 20 caracteres">
+                   data-min-largo="5" data-msg-largo="El documento debe tener entre 5 y 20 dígitos"
+                   data-max-largo="20" data-msg-max-largo="El documento admite máximo 20 dígitos">
             <div class="text-danger" th:if="${#fields.hasErrors('documento')}" th:errors="*{documento}"></div>
         </div>
         <div class="mb-3">
@@ -39,7 +40,7 @@
             <label class="form-label">Motivo de consulta</label>
             <input class="form-control" th:field="*{motivoConsulta}"
                    data-requerido="El motivo de consulta es obligatorio"
-                   data-max-largo="255" data-msg-largo="Máximo 255 caracteres">
+                   data-max-largo="255" data-contador>
             <div class="text-danger" th:if="${#fields.hasErrors('motivoConsulta')}" th:errors="*{motivoConsulta}"></div>
         </div>
         <div class="mb-3">
@@ -56,7 +57,8 @@
         <div class="mb-3">
             <label class="form-label">Alergias / antecedentes críticos</label>
             <input class="form-control" th:field="*{alergias}"
-                   data-max-largo="255" data-msg-largo="Máximo 255 caracteres">
+                   data-max-largo="255" data-contador>
+            <div class="text-danger" th:if="${#fields.hasErrors('alergias')}" th:errors="*{alergias}"></div>
         </div>
         <div class="mb-3">
             <label class="form-label">Estado</label>
