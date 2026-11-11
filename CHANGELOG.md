@@ -23,6 +23,9 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y 
 - Proyecto Spring Boot MVC inicial con entidades `Paciente` y `Medico` (relación muchos a uno), CRUD, validaciones y estilos básicos.
 - Cálculo simplificado de prioridad (RF02).
 
+### Cambiado
+- Puerto de MySQL: el proyecto usa el puerto por defecto 3306 en lugar de 3307 (`application.properties` y documentación).
+
 ### Corregido
 - Error 500 (`TemplateInputException`) al registrar o editar un paciente: la plantilla se llamaba `fomulario.html`.
 - Correo: al pegar más de 100 caracteres no se mostraba el mensaje de límite (detectado en QA).

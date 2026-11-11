@@ -33,7 +33,7 @@
 |---|---|---|
 | JDK | 21 | Temurin u Oracle |
 | Maven | Wrapper incluido (`mvnw`) | No es necesario instalar Maven |
-| XAMPP (MySQL/MariaDB) | 8.2.12 recomendado | Puerto configurado en el proyecto: **3307** (XAMPP trae 3306 por defecto; ver manual 3.1) |
+| XAMPP (MySQL/MariaDB) | 8.2.12 recomendado | Puerto configurado en el proyecto: **3306** (por defecto de XAMPP) |
 | IDE | IntelliJ IDEA, VS Code (Extension Pack for Java + Spring Boot) o STS | Activar *annotation processing* para Lombok |
 | Git | 2.40+ | Ver flujo en [04-flujo-de-trabajo-git.md](04-flujo-de-trabajo-git.md). Windows: `winget install --id Git.Git -e` |
 | Navegador | Chrome / Edge / Firefox actualizados | |

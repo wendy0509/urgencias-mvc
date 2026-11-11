@@ -37,7 +37,7 @@ Sistema web para **priorizar la atención de pacientes en urgencias**. Registra 
   git checkout develop
   .\mvnw.cmd spring-boot:run
   ```
-  Si tu MySQL está en el puerto **3306** (por defecto en XAMPP) y no en 3307, ver [06 · Manual, sección 3.1](06-manual-del-sistema.md#31-si-mysql-usa-el-puerto-3306).
+  El proyecto usa el puerto por defecto de MySQL (**3306**), así que XAMPP no necesita configuración extra.
 - [ ] Abrir <http://localhost:8080>, registrar un médico y luego un paciente.
 - [ ] Leer los documentos 3 a 5 de la tabla anterior.
 

@@ -28,7 +28,7 @@ La arquitectura objetivo a largo plazo (hexagonal con eventos) está descrita en
 | Framework | Spring Boot 4.1.2 (Spring Web MVC, Spring Data JPA, Bean Validation) |
 | Vistas | Thymeleaf + HTML5 / CSS (Bootstrap 5.3) |
 | Validación en el navegador | JavaScript sin librerías (`static/js/validacion-formularios.js`) |
-| Base de datos | MySQL (XAMPP), puerto 3307, base `urgencias_db` |
+| Base de datos | MySQL (XAMPP), puerto 3306, base `urgencias_db` |
 | Build | Maven (wrapper `mvnw` incluido) |
 | Utilidades | Lombok, Spring DevTools |
 
@@ -37,7 +37,7 @@ Detalle completo en [docs/03-stack-tecnologico.md](docs/03-stack-tecnologico.md)
 ## Inicio rápido
 
 ```bash
-# 1. Iniciar MySQL en XAMPP (puerto 3307) y crear la base de datos
+# 1. Iniciar MySQL en XAMPP (puerto 3306, el que trae por defecto) y crear la base de datos
 #    CREATE DATABASE urgencias_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 # 2. Clonar y entrar a la rama de desarrollo
@@ -51,12 +51,6 @@ mvnw.cmd spring-boot:run      # Windows
 ```
 
 Abrir <http://localhost:8080/>. Las tablas se crean solas (`ddl-auto=update`).
-
-Si tu MySQL de XAMPP usa el puerto **3306**, arranca así (una sola línea):
-
-```powershell
-.\mvnw.cmd spring-boot:run "-Dspring-boot.run.arguments=--spring.datasource.url=jdbc:mysql://localhost:3306/urgencias_db?useSSL=false&serverTimezone=America/Bogota&allowPublicKeyRetrieval=true"
-```
 
 Manual completo (requisitos, configuración de BD, URLs y guía de uso): [docs/06-manual-del-sistema.md](docs/06-manual-del-sistema.md).
 

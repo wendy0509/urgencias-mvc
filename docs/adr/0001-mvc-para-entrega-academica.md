@@ -11,7 +11,7 @@ La actividad *Desarrollo de una aplicación web utilizando Arquitectura MVC con 
 ## Decisión
 
 - Spring Boot con Spring Web MVC y Thymeleaf para las vistas.
-- Spring Data JPA sobre **MySQL (XAMPP)** en el puerto 3307.
+- Spring Data JPA sobre **MySQL (XAMPP)** en el puerto 3306.
 - Entidades `Medico` (1) — `Paciente` (N).
 - Paquetes por capa técnica: `model`, `repository`, `service`, `controller`.
 - Java 21, Lombok para reducir código repetitivo.

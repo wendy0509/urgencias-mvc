@@ -32,22 +32,16 @@ java -version    # debe mostrar 21
 |---|---|
 | Motor | MySQL (XAMPP) |
 | Nombre de la BD | `urgencias_db` |
-| Puerto | **3307** |
+| Puerto | **3306** (por defecto de XAMPP) |
 | Usuario | `root` |
 | Contraseña | *(vacía, valor por defecto de XAMPP)* |
 | Creación de tablas | Automática (`spring.jpa.hibernate.ddl-auto=update`) |
 
 **La base de datos debe crearse previamente en XAMPP (MySQL).**
 
-### 2.1 Cambiar el puerto de MySQL a 3307 en XAMPP
+> El proyecto usa el puerto por defecto de MySQL (3306). Si tu MySQL está en otro puerto, cámbialo en `spring.datasource.url` solo en tu copia local.
 
-1. Panel de XAMPP → MySQL → **Config** → `my.ini`.
-2. Cambiar `port=3306` por `port=3307` (aparece en las secciones `[client]` y `[mysqld]`).
-3. Guardar y reiniciar MySQL.
-
-> Si prefieres dejar el puerto 3306, cambia `3307` por `3306` en `spring.datasource.url` dentro de `src/main/resources/application.properties`.
-
-### 2.2 Crear la base de datos
+### 2.1 Crear la base de datos
 
 En phpMyAdmin (<http://localhost/phpmyadmin>) → pestaña **SQL**:
 
@@ -86,13 +80,13 @@ CREATE TABLE pacientes (
 );
 ```
 
-### 2.3 `application.properties`
+### 2.2 `application.properties`
 
 ```properties
 spring.application.name=urgencias
 server.port=8080
 
-spring.datasource.url=jdbc:mysql://localhost:3307/urgencias_db?useSSL=false&serverTimezone=America/Bogota&allowPublicKeyRetrieval=true
+spring.datasource.url=jdbc:mysql://localhost:3306/urgencias_db?useSSL=false&serverTimezone=America/Bogota&allowPublicKeyRetrieval=true
 spring.datasource.username=root
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
@@ -117,21 +111,6 @@ En **PowerShell** el wrapper se escribe con `.\` delante: `.\mvnw.cmd spring-boo
 Desde el IDE: abrir la carpeta como proyecto Maven y ejecutar `UrgenciasApplication.java`.
 
 La primera ejecución tarda unos minutos porque Maven descarga Spring Boot y las librerías. Está lista cuando la consola muestra `Started UrgenciasApplication`.
-
-### 3.1 Si MySQL usa el puerto 3306
-
-XAMPP instala MySQL en el puerto **3306**; el proyecto está configurado con **3307**. Hay dos opciones:
-
-**Opción A — sin cambiar archivos (recomendada para probar):** arrancar indicando el puerto, en una sola línea:
-
-```powershell
-.\mvnw.cmd spring-boot:run "-Dspring-boot.run.arguments=--spring.datasource.url=jdbc:mysql://localhost:3306/urgencias_db?useSSL=false&serverTimezone=America/Bogota&allowPublicKeyRetrieval=true"
-```
-
-**Opción B — dejar XAMPP en 3307 (igual que el equipo):**
-1. XAMPP → MySQL → **Config → my.ini** → cambiar `port=3306` por `port=3307` en `[client]` y `[mysqld]`.
-2. En `C:\xampp\phpMyAdmin\config.inc.php` agregar: `$cfg['Servers'][$i]['port'] = '3307';` (si no, phpMyAdmin deja de conectar).
-3. Reiniciar MySQL y arrancar con `.\mvnw.cmd spring-boot:run`.
 
 La aplicación queda disponible en <http://localhost:8080/>.
 
@@ -190,8 +169,8 @@ Reglas completas, límites y mensajes de cada campo: [09-reglas-de-campos.md](09
 |---|---|---|
 | `git` / `java` no se reconoce como comando | No está instalado o la terminal se abrió antes de instalarlo | Instalar (ver sección 1) y abrir una terminal nueva |
 | `mvnw.cmd` no se reconoce en PowerShell | Falta `.\` | Usar `.\mvnw.cmd spring-boot:run` |
-| `Communications link failure` | MySQL apagado o puerto distinto | Iniciar MySQL en XAMPP; si está en 3306, ver sección 3.1 |
-| `Unknown database 'urgencias_db'` | BD no creada | Ejecutar el `CREATE DATABASE` del punto 2.2 |
+| `Communications link failure` | MySQL apagado o puerto distinto | Iniciar MySQL en XAMPP y verificar que escuche en el puerto 3306 |
+| `Unknown database 'urgencias_db'` | BD no creada | Ejecutar el `CREATE DATABASE` del punto 2.1 |
 | `Access denied for user 'root'` | MySQL tiene contraseña | Agregar `spring.datasource.password` localmente |
 | `Port 8080 was already in use` | Otro proceso usa el puerto | Cerrarlo o cambiar `server.port` |
 | Error de Lombok en el IDE (getters no encontrados) | *Annotation processing* desactivado | Activarlo en el IDE |
