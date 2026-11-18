@@ -7,6 +7,9 @@
     <h2 th:text="${paciente.id == null} ? 'Registrar paciente' : 'Editar paciente'"></h2>
 
     <form th:action="@{/pacientes/guardar}" th:object="${paciente}" method="post" data-validar>
+        <div class="alert alert-danger" th:if="${#fields.hasGlobalErrors()}">
+            <p class="mb-0" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
+        </div>
         <input type="hidden" th:field="*{id}">
 
         <div class="mb-3">
@@ -68,12 +71,12 @@
         </div>
         <div class="mb-3">
             <label class="form-label">Médico asignado</label>
-            <select class="form-select" th:field="*{medico.id}" data-requerido="Debe seleccionar un médico">
+            <select class="form-select" th:field="*{medicoId}" data-requerido="Debe seleccionar un médico">
                 <option value="">-- Seleccione --</option>
                 <option th:each="m : ${medicos}" th:value="${m.id}"
                         th:text="${m.nombre + ' - ' + m.especialidad}"></option>
             </select>
-            <div class="text-danger" th:if="${#fields.hasErrors('medico')}" th:errors="*{medico}"></div>
+            <div class="text-danger" th:if="${#fields.hasErrors('medicoId')}" th:errors="*{medicoId}"></div>
         </div>
 
         <button class="btn btn-primary">Guardar</button>
