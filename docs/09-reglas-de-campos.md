@@ -9,7 +9,7 @@ Cada regla se aplica en **dos capas**, con los mismos mensajes:
 | Capa | Dónde | Qué hace |
 |---|---|---|
 | **Navegador** (tiempo real) | `src/main/resources/static/js/validacion-formularios.js` + atributos `data-*` en las plantillas | Muestra el error en rojo mientras se escribe. **Bloquea** al escribir o pegar los caracteres no permitidos (letras en números, más caracteres del máximo, valores fuera de rango). No deja enviar el formulario si hay errores. |
-| **Servidor** (respaldo) | Anotaciones de Bean Validation en `model/Paciente.java` y `model/Medico.java`, más reglas en el controlador | Rechaza datos inválidos aunque alguien se salte el navegador. Los errores se muestran bajo cada campo con `th:errors`. |
+| **Servidor** (respaldo) | Anotaciones de Bean Validation en los formularios `infrastructure/adapter/in/web/dto/PacienteForm.java` y `MedicoForm.java`; reglas de negocio (documento único, rangos, médico obligatorio) en `application/service` y `domain/model` | Rechaza datos inválidos aunque alguien se salte el navegador. Los errores se muestran bajo cada campo con `th:errors`. |
 
 Tipos de regla:
 - **Bloquea**: el carácter o valor no entra en el campo; aparece el mensaje.
@@ -45,7 +45,7 @@ Regla de negocio: **no se puede eliminar un médico con pacientes asignados** �
 
 Una regla siempre se cambia en **los tres lugares** y en este documento, en la misma rama `feature/*`:
 
-1. **Entidad** (`model/*.java`): anotación de Bean Validation con el mensaje en español.
+1. **Formulario DTO** (`infrastructure/adapter/in/web/dto/*Form.java`): anotación de Bean Validation con el mensaje en español.
    ```java
    @Size(max = 100, message = "El nombre admite máximo 100 caracteres")
    @Pattern(regexp = "[\\p{L} .'-]*", message = "El nombre solo debe contener letras")

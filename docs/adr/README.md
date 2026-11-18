@@ -7,6 +7,7 @@ Cada decisión que afecte la estructura, el stack o el flujo de trabajo se regis
 | [0001](0001-mvc-para-entrega-academica.md) | MVC en capas con Spring Boot y MySQL para la primera entrega | Aceptada |
 | [0002](0002-hexagonal-con-eventos-como-objetivo.md) | Arquitectura hexagonal con eventos como arquitectura objetivo | Aceptada |
 | [0003](0003-git-flow.md) | Git Flow con PR obligatorio | Aceptada |
+| [0004](0004-migracion-a-hexagonal.md) | Migración de MVC a arquitectura hexagonal | Aceptada |
 
 ## Plantilla
 

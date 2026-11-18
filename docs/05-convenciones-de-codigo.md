@@ -19,17 +19,21 @@
 | Valor de enum | MAYUSCULAS_CON_GUION | `EN_ESPERA` |
 | Prueba | `<Clase>Test`, método `debe<Comportamiento>` | `PacienteServiceTest.debeAsignarPrioridadCriticaAMenorDeCinco` |
 
-## 3. Capas (etapa MVC)
+## 3. Capas (arquitectura hexagonal)
 
 | Paquete | Puede depender de | No debe |
 |---|---|---|
-| `controller` | `service`, `model` | Usar repositorios directamente |
-| `service` | `repository`, `model` | Conocer `Model`, `HttpServletRequest` u objetos de vista |
-| `repository` | `model` | Contener lógica de negocio |
-| `model` | — | Depender de otras capas |
+| `domain.model`, `domain.exception` | Solo Java estándar | Importar Spring, JPA, Jakarta, `application` o `infrastructure` |
+| `domain.port.in` / `domain.port.out` | `domain.model` | Exponer tipos de frameworks |
+| `application.service` | `domain` | Importar `infrastructure` o Spring (se registra en `infrastructure/config`) |
+| `infrastructure.adapter.in.web` | Puertos de entrada, modelos y excepciones del dominio | Usar repositorios, entidades JPA o servicios concretos |
+| `infrastructure.adapter.out.persistence` | Puertos de salida y modelos del dominio | Contener reglas de negocio |
+| `infrastructure.config` | Todo | — |
+
+Nombres: puertos de entrada `Gestionar<Entidad>UseCase`; puertos de salida `<Entidad>RepositoryPort`; adaptadores `<Entidad>PersistenceAdapter`; entidades JPA `<Entidad>Entity`; formularios `<Entidad>Form`.
 
 - Inyección por **constructor** (no `@Autowired` en atributos).
-- Validaciones de entrada con Bean Validation en la entidad o DTO; reglas de negocio en el servicio.
+- Validaciones de formato con Bean Validation en los formularios DTO; reglas de negocio en el dominio y en los servicios de aplicación.
 - Mensajes de validación en español y claros para el usuario.
 
 ## 4. Vistas (Thymeleaf)
@@ -42,7 +46,7 @@
 ### Validación de campos
 
 - Cada campo de texto tiene **máximo de caracteres**; cada campo numérico acepta **solo dígitos** y tiene rango.
-- La regla se escribe en la entidad (`@NotBlank`, `@Size`, `@Pattern`, `@Min`, `@Max`, `@Email`) **y** en la plantilla con atributos `data-*`, con el **mismo mensaje**.
+- La regla se escribe en el formulario DTO (`@NotBlank`, `@Size`, `@Pattern`, `@Min`, `@Max`, `@Email`) **y** en la plantilla con atributos `data-*`, con el **mismo mensaje**.
 - Campos numéricos: `type="text" inputmode="numeric"`, no `type="number"`.
 - Formularios con el atributo `data-validar` y el script `@{/js/validacion-formularios.js}` al final del `<body>`.
 - Mensajes cortos, en español, que digan qué hacer: "El documento solo debe contener números".
