@@ -9,14 +9,15 @@
 | 2 | `v0.2.0` | `release/0.2.0` | Completar requisitos clínicos en MVC: signos vitales, cierre de atención, historial | ⚪ Pendiente |
 | 3 | `v0.3.0` | `release/0.3.0` | Motor de prioridad con reglas (Strategy) y pruebas unitarias | ⚪ Pendiente |
 | 4 | `v0.4.0` | `release/0.4.0` | Seguridad: usuarios, roles, login (RF10, RNF04) | ⚪ Pendiente |
-| 5 | `v1.0.0` | `release/1.0.0` | Migración a hexagonal + eventos + cola en tiempo real | ⚪ Pendiente |
+| 1b | `v0.2.0` | `release/0.2.0` | Migración de MVC a hexagonal (actividad final) | 🟡 En revisión (`feature/migracion-hexagonal`) |
+| 5 | `v1.0.0` | `release/1.0.0` | Eventos + cola en tiempo real sobre la estructura hexagonal | ⚪ Pendiente |
 
 ## Mapeo requisito → rama sugerida
 
 | Requisito | Rama `feature/*` | Fase | Estado en el código |
 |---|---|---|---|
 | RF01 Registrar paciente | `feature/rf01-registro-signos-vitales` | 2 | Parcial: falta capturar signos vitales |
-| RF02 Clasificar prioridad inicial | `feature/motor-prioridad` (subramas `/regla-edad`, `/regla-gravedad`, `/regla-signos-vitales`) | 3 | Parcial: versión simplificada en `PacienteService` |
+| RF02 Clasificar prioridad inicial | `feature/motor-prioridad` (subramas `/regla-edad`, `/regla-gravedad`, `/regla-signos-vitales`) | 3 | Parcial: versión simplificada en `domain/model/Prioridad` |
 | RF03 Actualizar prioridad dinámicamente | `feature/rf03-recalculo-por-tiempo-espera` | 3 | No iniciado |
 | RF04 Cola en tiempo real | `feature/rf04-cola-tiempo-real` | 5 | Parcial: lista ordenada sin actualización automática |
 | RF05 Editar información clínica | `feature/rf05-editar-informacion-clinica` | 2 | Parcial: edición general de paciente |
@@ -45,10 +46,10 @@ Cada punto debería convertirse en un issue y corregirse en su propia rama:
 |---|---|---|---|
 | 1 | ~~La plantilla se llama `pacientes/fomulario.html` pero el controlador devuelve `pacientes/formulario`~~ | ✅ Corregido en PR #3 (confirmado en pruebas: error 500 al registrar paciente) | `feature/fix-plantilla-formulario-paciente` |
 | 2 | `calcularPrioridad` usa edad `>= 70` y `<= 5`; el RF02 define `>= 65` y `< 5` | Prioridad distinta a la documentada | `feature/motor-prioridad` |
-| 3 | `prioridad` es `String` libre; debería ser un `enum` (`BAJA`, `MEDIA`, `ALTA`, `CRITICA`) | Riesgo de valores inconsistentes | `feature/motor-prioridad` |
+| 3 | ~~`prioridad` es `String` libre; debería ser un `enum`~~ | ✅ Enum `Prioridad` en el dominio (migración hexagonal) | `feature/migracion-hexagonal` |
 | 4 | La cola se ordena por `nivelGravedad`, no por la `prioridad` calculada | El orden puede no reflejar la regla de edad | `feature/motor-prioridad` |
 | 5 | ~~El comentario de `alergias` cita "RF20", que no existe en el documento de requisitos~~ | ✅ Comentario eliminado en PR #4 | `feature/validacion-tiempo-real` |
-| 6 | Sólo existe la prueba `contextLoads` | Sin red de seguridad para refactorizar | `feature/pruebas-servicios` |
+| 6 | ~~Sólo existe la prueba `contextLoads`~~ | ✅ Pruebas de dominio, servicios, integración y arquitectura (migración hexagonal) | `feature/migracion-hexagonal` |
 | 7 | `pom.xml` con `<name/>`, `<description/>`, `<developers/>` vacíos | Metadatos incompletos | `feature/documentacion-base` (opcional) |
 | 8 | Bases de datos creadas antes del límite de 100 caracteres en `correo` conservan la columna en 255 (`ddl-auto=update` no reduce columnas) | Ninguno funcional: la validación limita a 100 | Migraciones con Flyway (fase 5) |
 | 9 | No hay pruebas automáticas del JavaScript de validación | Las reglas se prueban manualmente en QA | `feature/pruebas-servicios` |

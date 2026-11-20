@@ -1,18 +1,20 @@
-package com.pascualbravo.urgencias.model;
+package com.pascualbravo.urgencias.infrastructure.adapter.in.web.dto;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
-import lombok.*;
-import java.util.ArrayList;
-import java.util.List;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Entity
-@Table(name = "medicos")
+/**
+ * Datos del formulario de médico. Las reglas de formato (Bean Validation) pertenecen
+ * al adaptador web; deben coincidir con docs/09-reglas-de-campos.md y con la plantilla.
+ */
 @Getter @Setter @NoArgsConstructor
-public class Medico {
+public class MedicoForm {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank(message = "El nombre es obligatorio")
@@ -31,7 +33,4 @@ public class Medico {
     private String correo;
 
     private boolean disponible = true;
-
-    @OneToMany(mappedBy = "medico")
-    private List<Paciente> pacientes = new ArrayList<>();
 }

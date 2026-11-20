@@ -63,7 +63,7 @@ Sistema web para **priorizar la atención de pacientes en urgencias**. Registra 
 11. Nunca usar datos reales de pacientes. Datos de prueba siempre ficticios.
 
 ### Formularios y campos
-12. Toda regla de un campo existe en **tres lugares**: entidad (`@Size`, `@Pattern`…), plantilla (`data-*`) y [09-reglas-de-campos.md](09-reglas-de-campos.md). Si cambias uno, cambias los tres.
+12. Toda regla de un campo existe en **tres lugares**: formulario DTO (`@Size`, `@Pattern`… en `adapter/in/web/dto`), plantilla (`data-*`) y [09-reglas-de-campos.md](09-reglas-de-campos.md). Si cambias uno, cambias los tres.
 13. Los campos de texto **siempre** tienen máximo de caracteres; los numéricos, solo dígitos y su rango.
 
 ### Documentación
@@ -92,10 +92,13 @@ git push -u origin feature/mi-cambio
 | Necesito… | Archivo / carpeta |
 |---|---|
 | Cambiar una pantalla | `src/main/resources/templates/<entidad>/` |
-| Cambiar una validación | `model/<Entidad>.java` + `templates/<entidad>/formulario.html` + `docs/09-reglas-de-campos.md` |
+| Cambiar una validación | `infrastructure/adapter/in/web/dto/<Entidad>Form.java` + `templates/<entidad>/formulario.html` + `docs/09-reglas-de-campos.md` |
 | Lógica en el navegador | `src/main/resources/static/js/` |
-| Lógica de negocio (prioridad) | `service/PacienteService.java` |
-| Rutas | `controller/` |
+| Regla de prioridad y reglas del paciente | `domain/model/Prioridad.java`, `domain/model/Paciente.java` |
+| Casos de uso (qué hace el sistema) | `domain/port/in/` y su implementación en `application/service/` |
+| Rutas y controladores | `infrastructure/adapter/in/web/` |
+| Acceso a la base de datos | `infrastructure/adapter/out/persistence/` |
+| Cómo se conecta todo | `infrastructure/config/BeanConfiguration.java` y [02-arquitectura.md](02-arquitectura.md) |
 | Conexión a la base de datos | `src/main/resources/application.properties` |
 | Mensajes de error de conversión | `src/main/resources/messages.properties` |
 | Ver el diseño de una pantalla | [08-mockups.md](08-mockups.md) y Figma |

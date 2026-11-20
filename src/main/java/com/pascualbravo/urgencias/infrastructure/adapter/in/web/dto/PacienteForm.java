@@ -1,17 +1,18 @@
-package com.pascualbravo.urgencias.model;
+package com.pascualbravo.urgencias.infrastructure.adapter.in.web.dto;
 
-import jakarta.persistence.*;
+import com.pascualbravo.urgencias.domain.model.EstadoPaciente;
 import jakarta.validation.constraints.*;
-import lombok.*;
-import java.time.LocalDateTime;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Entity
-@Table(name = "pacientes")
+/**
+ * Datos del formulario de paciente. La relación con el médico viaja como medicoId;
+ * el servicio de aplicación se encarga de resolverla.
+ */
 @Getter @Setter @NoArgsConstructor
-public class Paciente {
+public class PacienteForm {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank(message = "El nombre es obligatorio")
@@ -22,7 +23,6 @@ public class Paciente {
     @NotBlank(message = "El documento es obligatorio")
     @Size(min = 5, max = 20, message = "El documento debe tener entre 5 y 20 dígitos")
     @Pattern(regexp = "\\d*", message = "El documento solo debe contener números")
-    @Column(unique = true)
     private String documento;
 
     @NotNull(message = "La edad es obligatoria")
@@ -42,14 +42,8 @@ public class Paciente {
     @Size(max = 255, message = "Máximo 255 caracteres")
     private String alergias;
 
-    private String prioridad;           // calculada (RF02)
-
-    private LocalDateTime fechaLlegada;
-
-    @Enumerated(EnumType.STRING)
     private EstadoPaciente estado = EstadoPaciente.EN_ESPERA;
 
-    @ManyToOne
-    @JoinColumn(name = "medico_id", nullable = false)
-    private Medico medico;
+    @NotNull(message = "Debe seleccionar un médico")
+    private Long medicoId;
 }

@@ -22,4 +22,5 @@ Entregas: `develop` → `release/X.Y.Z` (**QA**) → `main` (despliegue). Ver [f
 - Si el PR rompe la compilación, no se aprueba.
 - Un PR = un tema (un grupo coherente de arreglos). PRs pequeños se revisan mejor.
 - Commits y PR solo con el usuario de GitHub de quien hace el cambio; sin firmas ni textos automáticos de herramientas.
-- Toda regla de un campo vive en la entidad, en la plantilla y en `docs/09-reglas-de-campos.md`.
+- Toda regla de un campo vive en el formulario DTO (`adapter/in/web/dto`), en la plantilla y en `docs/09-reglas-de-campos.md`.
+- Respetar la regla de dependencia hexagonal: los controladores solo usan puertos de entrada; el dominio no importa Spring ni JPA (lo verifica `ArquitecturaHexagonalTest`).

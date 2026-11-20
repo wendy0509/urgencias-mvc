@@ -114,6 +114,19 @@ La primera ejecución tarda unos minutos porque Maven descarga Spring Boot y las
 
 La aplicación queda disponible en <http://localhost:8080/>.
 
+### 3.1 Ejecutar las pruebas
+
+```bash
+./mvnw clean verify          # Linux / macOS
+.\mvnw.cmd clean verify      # Windows (PowerShell)
+```
+
+Las pruebas **no necesitan MySQL**: usan una base H2 en memoria (`src/test/resources/application.properties`). Incluyen pruebas del dominio, de los casos de uso con adaptadores en memoria, una prueba de integración del CRUD completo de médicos y pacientes, y las reglas de arquitectura hexagonal (ArchUnit). Detalle en [10-documento-tecnico-hexagonal.md §6](10-documento-tecnico-hexagonal.md#6-verificación-del-funcionamiento).
+
+### 3.2 Arquitectura
+
+El código está organizado en arquitectura hexagonal (`domain`, `application`, `infrastructure`). Ver [02-arquitectura.md](02-arquitectura.md). Para el usuario final no cambia nada respecto a la versión MVC: mismas pantallas, URL y base de datos.
+
 ## 4. URLs de acceso
 
 | Funcionalidad | Método | URL |
@@ -131,6 +144,8 @@ La aplicación queda disponible en <http://localhost:8080/>.
 | Editar médico | GET | `http://localhost:8080/medicos/{id}/editar` |
 | Guardar médico | POST | `http://localhost:8080/medicos/guardar` |
 | Eliminar médico | POST | `http://localhost:8080/medicos/{id}/eliminar` |
+
+Si se abre el detalle o la edición de un id que no existe, se muestra la página *Registro no encontrado* (HTTP 404).
 
 Puerto: **8080** (configurable con `server.port`).
 
@@ -174,5 +189,6 @@ Reglas completas, límites y mensajes de cada campo: [09-reglas-de-campos.md](09
 | `Access denied for user 'root'` | MySQL tiene contraseña | Agregar `spring.datasource.password` localmente |
 | `Port 8080 was already in use` | Otro proceso usa el puerto | Cerrarlo o cambiar `server.port` |
 | Error de Lombok en el IDE (getters no encontrados) | *Annotation processing* desactivado | Activarlo en el IDE |
+| `ArquitecturaHexagonalTest` falla al compilar | Una clase importa algo que la regla de dependencia prohíbe (p. ej. un controlador usa un repositorio) | Usar el puerto correspondiente; ver [02-arquitectura.md §1.2](02-arquitectura.md#12-regla-de-dependencia) |
 | `TemplateInputException: Error resolving template [pacientes/formulario]` | La plantilla se llamaba `fomulario.html` | Corregido en `feature/fix-plantilla-formulario-paciente`; actualizar la rama (`git pull`) |
 | Los errores no aparecen mientras se escribe | El navegador guardó una versión vieja del JavaScript | Recargar con **Ctrl + F5** |
