@@ -14,11 +14,11 @@ Proyecto de aula de la materia **Arquitectura de Software** — Institución Uni
 
 ## Estado actual
 
-Versión en desarrollo **0.1.0-SNAPSHOT**: aplicación **Spring Boot MVC** con CRUD de `Paciente` y `Medico` (relación muchos a uno), validación de formularios en tiempo real (navegador) y en el servidor, y cálculo simplificado de prioridad. Corresponde a la actividad *Desarrollo de una aplicación web utilizando Arquitectura MVC con Spring Boot*.
+Versión en desarrollo **0.1.0-SNAPSHOT**: aplicación **Spring Boot con arquitectura hexagonal** (puertos y adaptadores) con CRUD de `Paciente` y `Medico` (relación muchos a uno), validación de formularios en tiempo real (navegador) y en el servidor, y cálculo simplificado de prioridad. Corresponde a la actividad *Transformación de Arquitectura MVC a Arquitectura Hexagonal*; la versión MVC anterior está documentada en [docs/02-arquitectura.md §2](docs/02-arquitectura.md).
 
 > **¿Eres nuevo(a) en el equipo?** Empieza por la [guía para nuevos integrantes](docs/00-guia-nuevo-integrante.md).
 
-La arquitectura objetivo a largo plazo (hexagonal con eventos) está descrita en [docs/02-arquitectura.md](docs/02-arquitectura.md).
+Documento técnico de la transformación (comparativa MVC vs. hexagonal, diagramas y reflexión): [docs/10-documento-tecnico-hexagonal.md](docs/10-documento-tecnico-hexagonal.md).
 
 ## Stack tecnológico
 
@@ -70,7 +70,7 @@ Manual completo (requisitos, configuración de BD, URLs y guía de uso): [docs/0
 |---|---|
 | [00 · Guía para nuevos integrantes](docs/00-guia-nuevo-integrante.md) | **Empieza aquí**: qué leer, cómo arrancar el proyecto y reglas del equipo |
 | [01 · Visión y alcance](docs/01-vision-y-alcance.md) | Problema, usuarios, alcance, requisitos RF/RNF, atributos de calidad |
-| [02 · Arquitectura](docs/02-arquitectura.md) | Estructura MVC actual, flujo de una petición, arquitectura objetivo |
+| [02 · Arquitectura](docs/02-arquitectura.md) | Estructura hexagonal actual, MVC anterior, arquitectura objetivo |
 | [03 · Stack tecnológico](docs/03-stack-tecnologico.md) | Lenguajes, frameworks, versiones y herramientas |
 | [04 · Flujo de trabajo Git](docs/04-flujo-de-trabajo-git.md) | Ramas `main`, `develop`, `feature/*`, `release/*`, `hotfix/*`; Pull Requests |
 | [05 · Convenciones de código](docs/05-convenciones-de-codigo.md) | Nombres, paquetes, commits, estilo |
@@ -78,6 +78,7 @@ Manual completo (requisitos, configuración de BD, URLs y guía de uso): [docs/0
 | [07 · Roadmap](docs/07-roadmap.md) | Fases, mapeo de requisitos a ramas, deuda técnica conocida |
 | [08 · Mockups](docs/08-mockups.md) | Diseño de cada pantalla en Figma y su vista correspondiente |
 | [09 · Reglas de los campos](docs/09-reglas-de-campos.md) | Qué acepta cada campo, límites, mensajes y cómo se valida |
+| [10 · Documento técnico MVC → Hexagonal](docs/10-documento-tecnico-hexagonal.md) | Comparativa, estructura de paquetes, diagramas, reflexión y conclusiones |
 | [Informes de QA](docs/qa/) | Casos probados, resultados y defectos por PR o release |
 | [ADR](docs/adr/) | Registro de decisiones de arquitectura |
 | [CONTRIBUTING](CONTRIBUTING.md) | Cómo contribuir paso a paso |
@@ -101,7 +102,7 @@ Todo cambio entra por **Pull Request revisado y aprobado**. Ver [docs/04-flujo-d
 2. Los arreglos se agrupan en una rama y se consulta al equipo antes de abrir o actualizar el PR.
 3. Flujo de entrega: `feature/*` → `develop` → `release/*` (**QA**) → `main` (despliegue).
 4. Commits y PR a nombre del usuario de GitHub de quien hace el cambio, sin firmas adicionales.
-5. Toda regla de un campo se define en la entidad, en la plantilla y en [docs/09](docs/09-reglas-de-campos.md).
+5. Toda regla de un campo se define en el formulario DTO, en la plantilla y en [docs/09](docs/09-reglas-de-campos.md).
 6. Sin contraseñas ni datos reales de pacientes en el repositorio.
 
 Detalle en la [guía para nuevos integrantes](docs/00-guia-nuevo-integrante.md).

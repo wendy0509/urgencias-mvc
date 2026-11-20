@@ -1,6 +1,6 @@
 # ADR-0001: MVC en capas con Spring Boot y MySQL para la primera entrega
 
-- Estado: Aceptada
+- Estado: Reemplazada por [ADR-0004](0004-migracion-a-hexagonal.md)
 - Fecha: 2026-11-08
 - Autores: Samuel López Marín, Wendy Stefania Infante Vera, Karoll Dayanna Moreno Mahecha
 

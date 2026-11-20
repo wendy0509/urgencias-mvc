@@ -5,7 +5,15 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y 
 
 ## [Sin publicar]
 
+### Cambiado
+- **Arquitectura MVC → hexagonal** ([ADR-0004](docs/adr/0004-migracion-a-hexagonal.md)): `domain` (modelos puros, excepciones, puertos de entrada y salida), `application/service` (casos de uso sin Spring) e `infrastructure` (adaptador web, adaptador de persistencia JPA y configuración). Se conservan URL, pantallas y tablas.
+- La lógica de documento duplicado y búsqueda del médico pasa del controlador al servicio; el cálculo de prioridad pasa al dominio y `prioridad` es ahora el enum `Prioridad`.
+- Las reglas de Bean Validation pasan de las entidades a los formularios DTO (`PacienteForm`, `MedicoForm`).
+
 ### Añadido
+- Documento técnico de la transformación (`docs/10-documento-tecnico-hexagonal.md`).
+- Pruebas: dominio, casos de uso con adaptadores en memoria, integración CRUD sobre H2 y reglas de arquitectura con ArchUnit.
+- Página "Registro no encontrado" (404) en lugar del error 500 cuando un id no existe.
 - Documentación del proyecto: visión y alcance, arquitectura, stack, flujo Git (con etapa de QA), convenciones, manual del sistema, roadmap y ADR.
 - Guía para nuevos integrantes (`docs/00-guia-nuevo-integrante.md`) con reglas del equipo.
 - Diccionario de reglas de los campos (`docs/09-reglas-de-campos.md`).
